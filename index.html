@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dynamic Page and CSS Reload</title>
+    <link id="dynamic-css" rel="stylesheet" href="styles.css">
+    <script>
+        // Funkce pro načítání CSS
+        function reloadCSS() {
+            const cssLink = document.getElementById('dynamic-css');
+            const newHref = 'styles.css?v=' + new Date().getTime(); // Přidání časového parametru
+            cssLink.setAttribute('href', newHref); // Aktualizace odkazu na soubor CSS
+        }
+
+        // Funkce pro načtení a obnovení celé stránky
+        function reloadContent() {
+            fetch('content.html') // Cesta k našemu souboru s obsahem
+                .then(response => response.text())
+                .then(html => {
+                    document.body.innerHTML = html; // Aktualizace obsahu body
+                })
+                .catch(error => console.error('Chyba při aktualizaci:', error));
+        }
+
+        // Aktualizace obsahu a CSS každých 5 sekund
+        setInterval(() => {
+            reloadContent();
+            reloadCSS();
+        }, 5000);
+    </script>
+</head>
+<body>
+<!-- Obsah se zde načte ze souboru content.html -->
+</body>
+</html>
